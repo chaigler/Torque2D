@@ -51,10 +51,8 @@ enum {
    ARB_texture_compression       = BIT(1),
    EXT_compiled_vertex_array     = BIT(2),
    EXT_fog_coord                 = BIT(3),
-   EXT_paletted_texture          = BIT(4),
-   NV_vertex_array_range         = BIT(5),
-   EXT_blend_color               = BIT(6),
-   EXT_blend_minmax              = BIT(7)
+   EXT_blend_color               = BIT(4),
+   EXT_blend_minmax              = BIT(5)
 };
 
 //WGL_ARB
@@ -413,15 +411,6 @@ bool GL_EXT_Init( )
    gGLState.primMode = 0;
    U32 extBitMask = 0;
 
-   // GL_EXT_paletted_texture
-   if (pExtString && dStrstr(pExtString, (const char*)"GL_EXT_paletted_texture") != NULL)
-   {
-      extBitMask |= EXT_paletted_texture;
-      gGLState.suppPalettedTexture = true;
-   }
-   else
-      gGLState.suppPalettedTexture = false;
-
    // EXT_compiled_vertex_array
    if (pExtString && dStrstr(pExtString, (const char*)"GL_EXT_compiled_vertex_array") != NULL)
    {
@@ -484,21 +473,6 @@ bool GL_EXT_Init( )
       gGLState.suppTextureCompression = false;
    }
 
-   // NV_vertex_array_range
-   if (pExtString && dStrstr(pExtString, (const char*)"NV_vertex_array_range") != NULL)
-   {
-      extBitMask |= NV_vertex_array_range;
-      gGLState.suppVertexArrayRange = true;
-   }
-   else
-      gGLState.suppVertexArrayRange = false;
-
-   // 3DFX_texture_compression_FXT1
-   if (pExtString && dStrstr(pExtString, (const char*)"3DFX_texture_compression_FXT1") != NULL)
-      gGLState.suppFXT1 = true;
-   else
-      gGLState.suppFXT1 = false;
-
    if (!bindEXTFunctions(extBitMask))
       Con::warnf("You are missing some OpenGL Extensions.  This is bad.");
 
@@ -548,15 +522,12 @@ bool GL_EXT_Init( )
    if (gGLState.suppARBMultitexture)      Con::printf("  ARB_multitexture (Max Texture Units: %d)", gGLState.maxTextureUnits);
    if (gGLState.suppEXTblendcolor)        Con::printf("  EXT_blend_color");
    if (gGLState.suppEXTblendminmax)       Con::printf("  EXT_blend_minmax");
-   if (gGLState.suppPalettedTexture)      Con::printf("  EXT_paletted_texture");
    if (gGLState.suppLockedArrays)         Con::printf("  EXT_compiled_vertex_array");
-   if (gGLState.suppVertexArrayRange)     Con::printf("  NV_vertex_array_range");
    if (gGLState.suppTextureEnvCombine)    Con::printf("  EXT_texture_env_combine");
    if (gGLState.suppPackedPixels)         Con::printf("  EXT_packed_pixels");
    if (gGLState.suppFogCoord)             Con::printf("  EXT_fog_coord");
    if (gGLState.suppTextureCompression)   Con::printf("  ARB_texture_compression");
    if (gGLState.suppS3TC)                 Con::printf("  EXT_texture_compression_s3tc");
-   if (gGLState.suppFXT1)                 Con::printf("  3DFX_texture_compression_FXT1");
    if (gGLState.suppTexEnvAdd)            Con::printf("  (ARB|EXT)_texture_env_add");
    if (gGLState.suppTexAnisotropic)       Con::printf("  EXT_texture_filter_anisotropic (Max anisotropy: %g)", gGLState.maxAnisotropy);
    if (gGLState.suppSwapInterval)         Con::printf("  WGL_EXT_swap_control");
@@ -565,15 +536,12 @@ bool GL_EXT_Init( )
    if (!gGLState.suppARBMultitexture)    Con::warnf("  ARB_multitexture");
    if (!gGLState.suppEXTblendcolor)      Con::warnf("  EXT_blend_color");
    if (!gGLState.suppEXTblendminmax)     Con::warnf("  EXT_blend_minmax");
-   if (!gGLState.suppPalettedTexture)    Con::warnf("  EXT_paletted_texture");
    if (!gGLState.suppLockedArrays)       Con::warnf("  EXT_compiled_vertex_array");
-   if (!gGLState.suppVertexArrayRange)   Con::warnf("  NV_vertex_array_range");
    if (!gGLState.suppTextureEnvCombine)  Con::warnf("  EXT_texture_env_combine");
    if (!gGLState.suppPackedPixels)       Con::warnf("  EXT_packed_pixels");
    if (!gGLState.suppFogCoord)           Con::warnf("  EXT_fog_coord");
    if (!gGLState.suppTextureCompression) Con::warnf("  ARB_texture_compression");
    if (!gGLState.suppS3TC)               Con::warnf("  EXT_texture_compression_s3tc");
-   if (!gGLState.suppFXT1)               Con::warnf("  3DFX_texture_compression_FXT1");
    if (!gGLState.suppTexEnvAdd)          Con::warnf("  (ARB|EXT)_texture_env_add");
    if (!gGLState.suppTexAnisotropic)     Con::warnf("  EXT_texture_filter_anisotropic");
    if (!gGLState.suppSwapInterval)       Con::warnf("  WGL_EXT_swap_control");
@@ -583,14 +551,7 @@ bool GL_EXT_Init( )
    Con::setBoolVariable( "$FogCoordSupported", gGLState.suppFogCoord );
    Con::setBoolVariable( "$TextureCompressionSupported", gGLState.suppTextureCompression );
    Con::setBoolVariable( "$AnisotropySupported", gGLState.suppTexAnisotropic );
-   Con::setBoolVariable( "$PalettedTextureSupported", gGLState.suppPalettedTexture );
    Con::setBoolVariable( "$SwapIntervalSupported", gGLState.suppSwapInterval );
-
-   if (!gGLState.suppPalettedTexture && Con::getBoolVariable("$pref::OpenGL::forcePalettedTexture",false))
-   {
-      Con::setBoolVariable("$pref::OpenGL::forcePalettedTexture", false);
-      Con::setBoolVariable("$pref::OpenGL::force16BitTexture", true);
-   }
 
    return true;
 }

@@ -66,14 +66,11 @@ struct GLState
    bool suppTexEnvAdd;
    bool suppLockedArrays;
    bool suppTextureEnvCombine;
-   bool suppVertexArrayRange;
    bool suppFogCoord;
    bool suppEdgeClamp;
    bool suppTextureCompression;
    bool suppS3TC;
-   bool suppFXT1;
    bool suppTexAnisotropic;
-   bool suppPalettedTexture;
    bool suppVertexBuffer;
    bool suppSwapInterval;
 
@@ -110,11 +107,6 @@ inline void dglClearPrimMetrics()
       gGLState.triCount[i] = gGLState.primCount[i] = 0;
 }
 
-inline bool dglDoesSupportPalettedTexture()
-{
-   return gGLState.suppPalettedTexture && (gOpenGLDisablePT == false);
-}
-
 inline bool dglDoesSupportCompiledVertexArray()
 {
    return gGLState.suppLockedArrays && (gOpenGLDisableCVA == false);
@@ -140,11 +132,6 @@ inline bool dglDoesSupportEXTBlendMinMax()
    return gGLState.suppEXTblendminmax;
 }
 
-inline bool dglDoesSupportVertexArrayRange()
-{
-   return gGLState.suppVertexArrayRange;
-}
-
 inline bool dglDoesSupportFogCoord()
 {
    return gGLState.suppFogCoord && (gOpenGLDisableFC == false);
@@ -163,11 +150,6 @@ inline bool dglDoesSupportTextureCompression()
 inline bool dglDoesSupportS3TC()
 {
    return gGLState.suppS3TC;
-}
-
-inline bool dglDoesSupportFXT1()
-{
-   return gGLState.suppFXT1;
 }
 
 inline bool dglDoesSupportTexEnvAdd()

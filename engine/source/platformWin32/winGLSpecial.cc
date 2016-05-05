@@ -2246,20 +2246,6 @@ static void APIENTRY logglViewport(GLint x, GLint y, GLsizei width, GLsizei heig
    dllglViewport( x, y, width, height );
 }
 
-static void APIENTRY logglColorTableEXT(GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, const void* data)
-{
-   AssertFatal(dllglColorTableEXT != NULL, "Error, shouldn't have called unsupported paletted_texture extension");
-
-   fprintf(winState.log_fp, "glColorTableEXT(%d, %d, %d, %d, %d, <data>)\n",
-           target,
-           internalFormat,
-           width,
-           format,
-           type);
-   fflush(winState.log_fp);
-   dllglColorTableEXT(target, internalFormat, width, format, type, data);
-}
-
 static void APIENTRY logglLockArraysEXT(GLint first, GLsizei count)
 {
    AssertFatal(dllglLockArraysEXT != NULL, "Error, shouldn't have called unsupported compiled_vertex_array extension");
@@ -2327,34 +2313,6 @@ static void APIENTRY logglMultiTexCoord2fvARB(GLenum texture, const GLfloat* p)
    fprintf( winState.log_fp, "glMultiTexCoord2fARB( %s, [%g, %g] )\n", gARBMTenums[index], p[0], p[1]);
    fflush(winState.log_fp);
    dllglMultiTexCoord2fvARB(texture, p);
-}
-
-/* NV_vertex_array_range */
-
-static void APIENTRY logglVertexArrayRangeNV(GLsizei length, void* pointer)
-{
-   fprintf(winState.log_fp, "glVertexArrayRangeNV( %d, MEMORY )", length);
-   fflush(winState.log_fp);
-   dllglVertexArrayRangeNV(length, pointer);
-}
-
-static void APIENTRY logglFlushVertexArrayRangeNV()
-{
-   SIG("glFlushVertexArrayRangeNV");
-   dllglFlushVertexArrayRangeNV();
-}
-
-static void* APIENTRY logwglAllocateMemoryNV(GLsizei length, GLfloat read, GLfloat write, GLfloat priority)
-{
-   fprintf(winState.log_fp, "wglAllocateMemoryNV( %d, %g, %g, %g)", length, read, write, priority);
-   fflush(winState.log_fp);
-   return dllwglAllocateMemoryNV(length, read, write, priority);
-}
-
-static void APIENTRY logwglFreeMemoryNV(void* pointer)
-{
-   SIG("glFreeMemoryNV(MEM)");
-   dllwglFreeMemoryNV(pointer);
 }
 
 /* EXT_fog_coord */

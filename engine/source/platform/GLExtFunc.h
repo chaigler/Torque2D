@@ -92,12 +92,6 @@ GL_FUNCTION(void,			glFogCoordfEXT, (GLfloat), return; )
 GL_FUNCTION(void ,		glFogCoordPointerEXT, (GLenum, GLsizei, void*), return; )
 GL_GROUP_END()
 
-//EXT_paletted_texture
-GL_GROUP_BEGIN(EXT_paletted_texture)
-GL_FUNCTION(void,       glColorTableEXT, (GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, const void* data), return; )
-GL_GROUP_END()
-
-
 // EXT_blend_color
 // http://www.msi.unilim.fr/~porquet/glexts/GL_EXT_blend_color.txt.html
 #define GL_CONSTANT_COLOR_EXT                0x8001
@@ -120,16 +114,6 @@ GL_GROUP_END()
 GL_GROUP_BEGIN(EXT_blend_minmax)
 GL_FUNCTION(void,       glBlendEquationEXT, (GLenum mode), return; )
 GL_GROUP_END()
-
-//NV_vertex_array_range
-#ifdef TORQUE_OS_WIN32
-GL_GROUP_BEGIN(NV_vertex_array_range)
-GL_FUNCTION(void, glVertexArrayRangeNV, (GLsizei length, void* pointer), return; )
-GL_FUNCTION(void, glFlushVertexArrayRangeNV, (), return; )
-GL_FUNCTION(void*, wglAllocateMemoryNV, (GLsizei, GLfloat, GLfloat, GLfloat), return NULL; )
-GL_FUNCTION(void, wglFreeMemoryNV, (void*), return; )
-GL_GROUP_END()
-#endif
 
 #ifdef UNDEF_BEGIN
 #undef GL_GROUP_BEGIN
